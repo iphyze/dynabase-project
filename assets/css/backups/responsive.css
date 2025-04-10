@@ -1,0 +1,596 @@
+@media screen and (max-width: 1280px){
+.container-flexbox{
+    position: relative;
+    width: 100%;
+}
+.menu-container{
+    position: relative;
+    width: 30%;
+    top: 0;
+    left: 0;
+    border-right: none;
+}
+.overview-container{
+    position: relative;
+    width: 70%;
+}
+.overview-header{
+    width: 100%;
+    padding: 20px 10px;
+    font-size: 14px;
+}
+.overview-footer{
+    position: absolute;
+    padding: 20px 10px;
+}
+.overview-footer-text{
+    font-size: 12px;
+}
+.overview-container-content{
+    width: 100%;
+    padding: 20px 10px;
+}
+.report-flexbox{
+    width: 100%;
+    justify-content: space-between;
+    height: auto;
+}
+.report-flexbox-col{
+    width: 48%;
+    height: 100px;
+}
+.report-table-flexbox{
+    width: 100%;
+    height: auto;
+    margin: 20px auto;
+}
+.rtf-col{
+    width: 100%;
+    height: 90px;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.06));
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.01);
+    margin: 15px 0;
+    padding: 10px 20px;
+    border-radius: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
+    justify-content: flex-start;
+}
+.rtf-col-title-icon{
+    width: 50px;
+    height: 50px;
+    padding: 15px 10px;
+    text-align: center;
+    background-color: #5ab95a;
+    border-radius: 50px;
+    color: whitesmoke;
+    font-size: 20px;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.05);
+    display: block;
+    margin-right: 10px;
+}
+.rtf-col-container{
+    margin-left: 10px;
+}
+.rtf-col-text{
+    display: block;
+    margin: 5px 0;
+    font-size: 18px;
+    font-family: Montserrat-Regular;
+    color: #5ab95a;
+}
+.rtf-col-summary{
+    display: flex;
+}
+.rtfcs-total{
+    font-size: 14px;
+    font-family: Montserrat-Regular;
+    margin-right: 10px;
+    color: #5ab95a;
+    position: relative;
+}
+.rtf-col-summary-total{
+    font-size: 14px;
+    font-family: Montserrat-Regular;
+    margin-right: 20px;
+    position: relative;
+    display: block;
+}
+.dashboard-table{
+    padding: 20px 0px;
+    width: 100%;
+    overflow-y: auto;
+}
+.dt-header{
+    color: #1f252a;
+    font-family: Montserrat-Bold;
+    margin: 10px 0;
+    font-size: 11px;
+}
+.dt-header-icon{
+    color: #1f252a;
+    font-family: Montserrat-Bold;
+    margin-right: 10px;
+}
+.dt-blockbox{
+    position: relative;
+    width: 120%;
+    height: auto;
+    margin: 10px 0;
+}
+.dt-flexbox{
+    position: relative;
+    width: 100%;
+    align-items: center;
+}
+.dtf-col{
+    position: relative;
+    font-size: 12px;
+    font-family: Montserrat-Regular;
+}
+.contract-class, .senior-class, .junior-class{
+    padding: 5px 10px;
+    font-size: 11px;
+    width: 80px;
+}
+.true-status, .false-status{
+    padding: 10px;
+    font-size: 11px;
+}
+.bold-heading{
+    font-family: Montserrat-Bold;
+    font-size: 13px;
+}
+
+    
+/* Payment Schedule */
+.new-payment-container{
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding: 20px 0;
+}
+
+.new-payment-container form{
+    position: relative;
+    width: 100%;
+    justify-content:flex-start;
+    margin-bottom: 50px;
+}
+.new-payment-container .np-form-group{
+    position: relative;
+    width: 48%;
+}
+.dt-theme-color{
+    color: #5ab95a;
+    font-family: Montserrat-Regular;
+    font-size: 14px;
+}
+.np-form-group button{
+    padding: 15px;
+}
+
+}
+
+@media screen and (max-width: 1080px){
+.wow{
+    visibility: visible !important;
+    -webkit-animation: none !important;
+    -moz-animation: none !important;
+    -o-animation: none !important;
+    -ms-animation: !important;
+    animation: !important;
+}
+*::-webkit-scrollbar{
+    width: 0px;
+    z-index: 20;
+}
+.fixed-header{
+    height: 80px;
+}
+.container{
+    width: 100%;
+    height: 88%;
+}
+.container-flexbox{
+    position: relative;
+    width: 100%;
+    min-height: 100%;
+    height: auto;
+}
+.menu-container{
+    position: absolute;
+    width: 85%;
+    min-height: 100%;
+    height: auto;
+    top: 0;
+    left: -85%;
+    z-index: 10;
+    border-right: none;
+}
+.overview-container{
+    position: relative;
+    width: 100%;
+    display: block;
+}
+.overview-header{
+    width: 100%;
+    padding: 20px;
+    font-size: 14px;
+}
+.overview-footer{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 20px;
+}
+.overview-footer-text{
+    font-size: 12px;
+}
+.top-margin{
+    margin-bottom: 100px;
+}
+.overview-container-content{
+    width: 100%;
+    padding: 20px;
+}
+.report-flexbox{
+    width: 100%;
+    justify-content: center;
+    height: auto;
+}
+.report-flexbox-col{
+    width: 100%;
+    height: 100px;
+}
+.report-table-flexbox{
+    width: 100%;
+    height: auto;
+    margin: 20px auto;
+}
+.rtf-col{
+    width: 100%;
+    height: auto;
+    padding: 20px 10px;
+}
+.rtf-col-title-icon{
+    width: 40px;
+    height: 40px;
+    padding: 12px;
+    font-size: 16px;
+}
+.rtf-col-container{
+    margin-left: 5px;
+}
+.rtf-col-text{
+    display: block;
+    margin: 5px 0;
+    font-size: 14px;
+    font-family: Montserrat-Regular;
+}
+.rtf-col-summary{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+.rtfcs-total{
+    font-size: 12px;
+    font-family: Montserrat-Regular;
+    margin: 5px 0;
+    margin-right: 5px;
+}
+.rtf-col-summary-total{
+    font-size: 12px;
+    font-family: Montserrat-Regular;
+    margin: 5px 0;
+    margin-right: 10px;
+    display: block;
+}
+.rtf-col{
+    width: 100%;
+    margin: 10px 0;
+}
+.dashboard-table{
+    padding: 10px 0px;
+    width: 100%;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+.dt-header{
+    color: #1f252a;
+    font-family: Montserrat-Bold;
+    margin: 10px 0;
+    font-size: 10px;
+}
+.dt-header-icon{
+    color: #1f252a;
+    font-family: Montserrat-Bold;
+    margin-right: 10px;
+}
+.dt-blockbox{
+    position: relative;
+    width: 150%;
+    height: auto;
+    margin: 2px 0;
+}
+.dt-flexbox{
+    position: relative;
+    width: 100%;
+    align-items: center;
+}
+.dtf-col{
+    position: relative;
+    font-size: 12px;
+    font-family: Montserrat-Regular;
+}
+.contract-class, .senior-class, .junior-class{
+    padding: 5px 10px;
+    font-size: 11px;
+    width: 80px;
+}
+.true-status, .false-status{
+    padding: 10px;
+    font-size: 11px;
+}
+.bold-heading{
+    font-family: Montserrat-Bold;
+    font-size: 13px;
+}
+    
+    
+.fixed-header-content{
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.fhc-flexbox{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+.fhc-flexbox-col{
+    position: relative;
+    width: 50%;
+    height: auto;
+}
+.align-right{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: auto;
+}
+.fhc-span{
+    font-family: Montserrat-Bold;
+    font-size: 18px;
+    color: #5ab95a;
+}
+.fhc-heading{
+    font-family: Montserrat-Bold;
+    font-size: 18px;
+    color: white;
+}
+.fhc-icon{
+    font-family: Montserrat-Bold;
+    font-size: 11px;
+    color: #5ab95a;
+    margin-left: 5px;
+    text-align: right;
+}
+.fhc-menu{
+    font-family: Montserrat-Regular;
+    font-size: 11px;
+    color: white;
+    margin: 5px;
+    text-align: right;
+}
+.fixed-header-content .fhc-heading-open{
+    visibility: visible;
+    margin-right: 10px;
+}
+#heading-close{
+    visibility: visible;
+}
+    
+    
+
+/* Payment Schedule */
+.new-payment-container{
+    position: relative;
+    width: 100%;
+    height: auto;
+    margin-bottom: 50px;
+}
+
+.new-payment-container form{
+    position: relative;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+.new-payment-container .np-form-group{
+    position: relative;
+    width: 100%;
+    height: 40px;
+    margin: 20px auto;
+    margin-right: 0px;
+}
+.dt-theme-color{
+    color: #5ab95a;
+    font-family: Montserrat-Regular;
+    font-size: 14px;
+}
+.np-form-group button{
+    padding: 15px;
+}
+
+.pad-box{
+    padding: 10px;
+    width: 100%;
+    font-size: 11px;
+    position: relative;
+    border-radius: 5px;
+    min-height: 200px;
+    height: auto;
+}
+.report-flexbox .box-title{
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 13px;
+}
+.rfc-col-icon{
+    font-size: 50px;
+}
+    
+.inside-block{
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.1));
+    width: 120px;
+    height: 120px;
+    position: absolute;
+    top: -10px;
+    right: -20px;
+    border-radius: 150px;
+}
+.inside-block-2{
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.2));
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    bottom: -30px;
+    left: -30px;
+    border-radius: 150px;
+}
+.inside-block-3{
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.1));
+    width: 140px;
+    height: 140px;
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    border-radius: 150px;
+}    
+    
+/*Payment Schedule*/
+.dt-flexbox-responsive{
+    width: 220%;
+}
+.more-width{
+    width: 9%;
+    font-size: 11px;
+}
+.dtf-col-id{
+    width: 30px;
+}
+.dtf-col-remark{
+    width: 350px;
+}
+    
+    
+/* Pagination Box */
+.pagination-box{
+    padding: 5px;
+}
+
+    
+.justify-left{
+    justify-content: center;
+}
+.mg-right{
+    margin-right: 0;
+}
+.small-fs{
+    font-size: 14px;
+}
+    
+/* Login Screen Css */    
+.login-container{
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.login-container-flexbox{
+    position: relative;
+    width: 100%;
+    display: block;
+}
+.lcf-col{
+    width: 100%;
+    position: relative;
+}
+.lcf-image{
+    display: none;
+}
+.lcf-bg{
+    background-image: url(images/bg-login.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    padding-top: 50px;
+}
+.lcf-form-header{
+    width: 100%;
+    font-size: 24px;
+}
+.lcf-form-container{
+    position: relative;
+    padding: 10px;
+    width: 100%;
+}
+.lcf-form-group{
+    width: 90%;
+    margin: 10px auto;
+    margin-bottom: 50px;
+    height: 30px;
+}
+.lcf-form-group input{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 25px;
+    padding-left: 60px;
+    padding-right: 10px;
+    border-radius: 30px;
+}
+.lcf-form-icon{
+    position: absolute;
+    width: 22%;
+    height: 100%;
+    padding: 21px 0px;
+    font-size: 12px;
+}
+.lcf-form-icon-open, .lcf-form-icon-close{
+    position: absolute;
+    width: 15%;
+    height: 100%;
+    padding: 21px 0px;
+    font-size: 12px;
+}
+.lcf-form-group button{
+    position: relative;
+    width: 100%;
+    padding: 15px;
+    border-radius: 30px;
+    border: 1px solid transparent;
+}
+.lcf-link{
+    font-size: 13px;
+}
+.ppc-flexbox .no-display{
+    display: none;
+}
+#heading-close{
+    top: 20px;
+    right: 31px;
+    font-size: 20px;
+    color: #5ab95a;
+}
+}

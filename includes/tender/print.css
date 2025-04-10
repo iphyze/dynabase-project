@@ -1,0 +1,37 @@
+.print-container{
+    position: relative;
+    width: 100%;
+    height: auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    margin: 25px auto;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.02);
+}
+
+.tender-title{
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    background-image: linear-gradient(to bottom, #5553be, #3734a0);
+    color: white;
+    text-align: left;
+    text-transform: uppercase;
+    font-family: Poppins-SemiBold;
+    font-size: 20px;
+}
+.tender-icon{
+    color: white;
+    margin: 0 10px;
+}
+
+.tender-flexbox{
+    margin: 10px 0;
+    width: 100%;
+    padding: 10px;
+}
+
+.tender-col{
+    color: red;
+}

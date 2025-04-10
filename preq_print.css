@@ -1,0 +1,297 @@
+body{
+	background-color: white;
+}
+.preq_container{
+	position: relative;
+	width: 80%;
+	height: auto;
+	margin: 50px auto;
+	padding: 50px 0;
+}
+.preq_flexbox_1{
+	position: relative;
+	width: 100%;
+	height: 150px;
+	border: 1px solid black;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+}
+.preq_col{
+	position: relative;
+	width: 28%;
+	height: 100%;
+	border: 1px solid black;
+	overflow: hidden;
+}
+.preq_img{
+	width: 28%;
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+}
+.lambert-img{
+	position: relative;
+	width: 90%;
+	height: auto;
+}
+.preq_mid{
+	width: 44%;
+}
+.preq_right{
+	width: 28%;
+}
+.preq_title_1{
+	position: relative;
+	width: 100%;
+	text-align: center;
+	height: 50%;
+	border-bottom: 1px solid black;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	font-style: italic;
+}
+.prt-1{
+	font-size: 20px;
+}
+.preq_title_2{
+	position: relative;
+	width: 100%;
+	text-align: center;
+	height: 50%;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+}
+.preq_client{
+	position: relative;
+	width: 100%;
+	font-family: Poppins-Bold;
+	font-size: 24px;
+	color: black;
+}
+.preq_check{
+	position: relative;
+	width: 100%;
+	font-family: Poppins-Bold;
+	font-size: 24px;
+	color: #4a4a4a;
+}
+
+
+.preq_box{
+	position: relative;
+	width: 100%;
+	margin: 50px auto;
+	border: 1px solid black;
+}
+.preqcol_flex{
+	position: relative;
+	width: 100%;
+	height: auto;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+.preqf_title{
+	position: relative;
+	width: 28%;
+	height: auto;
+	padding: 5px 10px;
+	border: 1px solid black;
+}
+.preqf_text{
+	position: relative;
+	width: 72%;
+	height: auto;
+	padding: 5px 10px;
+	border: 1px solid black;
+}
+.preqcol_flex_color{
+	background-color: rgba(0, 0, 0, 0.3);
+	padding: 10px;
+	border: 1px solid black;
+}
+.preq_client_title{
+	background-color: rgba(0, 0, 0, 0.3);
+	font-size: 18px;
+	font-family: Poppins-Bold;
+	padding: 5px 10px;
+}
+.preq_client_ttext{
+	position: relative;
+	width: 100%;
+	height: 150px;
+	padding: 5px 10px;
+	font-size: 14px;
+}
+.page-break{
+    page-break-before: auto;
+}
+
+.prospect-box{
+	position: relative;
+	width: 100%;
+	margin: 50px auto;
+	border: 1px solid black;
+}
+.prospect-fb{
+	position: relative;
+	width: 100%;
+	height: auto;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+.prospect-fb-1{
+	background-color: rgba(0, 0, 0, 0.3);
+}
+.prospect-fb-1 *{
+	font-family: Poppins-Bold;
+}
+.prospect-col{
+	padding: 5px 10px;
+}
+.prospect-sn{
+	position: relative;
+	width: 5%;
+	height: auto;
+	border: 1px solid black;
+}
+.prospect-project{
+	position: relative;
+	width: 47.5%;
+	height: auto;
+	border: 1px solid black;
+}
+.prospect-budget{
+	position: relative;
+	width: 47.5%;
+	height: auto;
+	border: 1px solid black;
+}
+
+
+
+
+@media print {
+body{
+	padding: 0;
+	margin: 0;
+}	
+.preq_container{
+	position: relative;
+	width: 100%;
+	margin: 0px auto;
+	padding: 0;
+}
+.preq_flexbox_1{
+	position: relative;
+	width: 100%;
+	height: 120px;
+	page-break-before: always;
+}
+.preq_col{
+	position: relative;
+	width: 28%;
+}
+.preq_img{
+	width: 28%;
+}
+.preq_mid{
+	width: 44%;
+}
+.preq_right{
+	width: 28%;
+}
+.preq_title_1{
+	position: relative;
+	width: 100%;
+	text-align: center;
+	height: 50%;
+}
+.prt-1{
+	font-size: 14px;
+}
+.preq_title_2{
+	position: relative;
+}
+.preq_client{
+	font-size: 16px;
+}
+.preq_check{
+	font-size: 16px;
+}
+
+
+.preq_box{
+	position: relative;
+	width: 100%;
+	margin: 20px auto;
+}
+.preqcol_flex{
+	position: relative;
+	width: 100%;
+}
+.preqf_title{
+	position: relative;
+	font-size: 12px;
+}
+.preqf_text{
+	position: relative;
+	font-size: 12px;
+}
+.preqcol_flex_color{
+	background-color: rgba(0, 0, 0, 0.3);
+}
+.preq_client_title{
+	background-color: rgba(0, 0, 0, 0.3);
+	font-size: 16px;
+}
+.preq_client_ttext{
+	position: relative;
+	font-size: 12px;
+}
+.page-break{
+    page-break-before: auto;
+}
+
+.prospect-box{
+	margin: 20px auto;
+}
+.prospect-fb{
+	position: relative;
+	width: 100%;
+}
+.prospect-col{
+	padding: 5px 10px;
+}
+.prospect-sn{
+	position: relative;
+	width: 12%;
+	font-size: 12px;
+}
+.prospect-project{
+	position: relative;
+	width: 44%;
+	height: auto;
+	border: 1px solid black;
+	font-size: 12px;
+}
+.prospect-budget{
+	position: relative;
+	width: 44%;
+	height: auto;
+	border: 1px solid black;
+	font-size: 12px;
+}
+}
