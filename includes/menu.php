@@ -91,6 +91,17 @@ $wow_active = '';
 
 
 
+if(isset($_GET['page']) && $_GET['page'] == "survey" || isset($_GET['page']) && $_GET['page'] == "survey_overview" || isset($_GET['page']) && $_GET['page'] == "add_survey" || isset($_GET['page']) && $_GET['page'] == "edit_survey" || isset($_GET['page']) && $_GET['page'] == "survey_search"
+|| isset($_GET['page']) && $_GET['page'] == "view_survey"
+){
+$survey_active = 'mcl-active';
+$sur_active = 'mca-active';
+}else{
+$survey_active = '';
+$sur_active = '';
+}
+
+
 ?>
 
 <div class="menu-container">
@@ -170,6 +181,17 @@ $wow_active = '';
         <ul class="mc-wrapper-sl">
             <li class="mc-wrapper-sli"><a class="mc-wrapper-sla" href="index.php?page=woi_overview">- Overview</a></li>
             <li class="mc-wrapper-sli"><a class="mc-wrapper-sla" href="index.php?page=add_woi">- New WOI</a></li>
+        </ul>    
+            
+        </li>
+
+
+
+        <li class="mc-wrapper-li <?php echo $survey_active?>"><a class="mc-wrapper-a <?php echo $sur_active?> mc-dropdown"><i class="fas fa-globe mc-icon <?php echo $sur_active?>"></i> Clients Survey <i class="fas fa-angle-right mc-right-icon <?php echo $sur_active?>"></i></a>
+        
+        <ul class="mc-wrapper-sl">
+            <li class="mc-wrapper-sli"><a class="mc-wrapper-sla" href="index.php?page=survey_overview">- Overview</a></li>
+            <!-- <li class="mc-wrapper-sli"><a class="mc-wrapper-sla" href="index.php?page=add_woi">- New WOI</a></li> -->
         </ul>    
             
         </li>

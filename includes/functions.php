@@ -2115,6 +2115,13 @@ function getTotalClients(){
 }
 
 
+function getTotalClientsSurvey(){
+    global $db;
+    $select = mysqli_query($db, "SELECT * FROM clients_survey_form");
+    $num = mysqli_num_rows($select);
+    echo number_format($num, 0);
+}
+
 
 function getTotalKeypersons(){
     global $db;

@@ -362,6 +362,33 @@ if($_SESSION['integrity'] == "PMS"){
         if(isset($_GET['page']) && $_GET['page'] == "view_woi"){
         include_once('includes/woi/view_woi.php');
         }
+
+
+
+        // clients survey
+        if(isset($_GET['page']) && $_GET['page'] == "survey_overview"){
+        include_once('includes/survey/survey_overview.php');
+        }
+
+        if(isset($_GET['page']) && $_GET['page'] == "survey"){
+        include_once('includes/survey/survey.php');
+        }
+        
+        if(isset($_GET['page']) && $_GET['page'] == "add_survey"){
+        include_once('includes/survey/add_survey.php');
+        }
+        
+        if(isset($_GET['page']) && $_GET['page'] == "edit_survey"){
+        include_once('includes/survey/edit_survey.php');
+        }
+        
+        if(isset($_GET['page']) && $_GET['page'] == "survey_search"){
+        include_once('includes/survey/survey_search.php');
+        }
+        
+        if(isset($_GET['page']) && $_GET['page'] == "view_survey"){
+        include_once('includes/survey/view_survey.php');
+        }
         
         
         
