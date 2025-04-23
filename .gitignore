@@ -1,2 +1,5 @@
 .qodo
 includes/connection.php
+.htaccess
+clients_survey_form_db/api/includes/connection.php
+clients_survey_form_db/api/.htaccess

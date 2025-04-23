@@ -15,9 +15,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 include_once('includes/connection.php');
 
-// Extract path from the request URI
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$basePath = 'htdocs/dynabase/clients_survey_form_db/';
+// $basePath = '/htdocs/dynabase/clients_survey_form_db/api';
+$basePath = '/clients_survey_form_db/api';
 $relativePath = str_replace($basePath, '', $requestUri);
 
 // Define route mappings
@@ -29,12 +29,17 @@ $routes = [
 
 // Check if the route exists
 if (array_key_exists($relativePath, $routes)) {
-    include_once($routes[$relativePath]);
-} else {
-    http_response_code(404);
-    echo json_encode(["message" => "Page not found."]);
+    if (is_callable($routes[$relativePath])) {
+        $routes[$relativePath](); // Execute function
+    } else {
+        include_once($routes[$relativePath]);
+    }
     exit;
 }
+
+http_response_code(404);
+echo json_encode(["message" => "Page not found!"]);
+exit;
 
 // Close connection
 mysqli_close($conn);
