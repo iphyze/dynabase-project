@@ -1,10 +1,9 @@
+
 <?php
 
 require 'vendor/autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-
-
 
 // Input sanitization function
 function sanitizeInput($data) {
@@ -20,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Sanitize all input data
     $data = sanitizeInput($data);
 
+    // Extract all form fields
     $quality = $data['quality'] ?? null;
     $quality_comments = $data['quality_comments'] ?? null;
     $timeline = $data['timeline'] ?? null;
@@ -48,8 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $company = $data['company'] ?? null;
     $location = $data['location'] ?? null;
 
-
-    // Required fields validation in an array for cleaner code
+    // Required fields validation
     $requiredFields = [
         'quality' => 'Please fill in the quality rating!',
         'timeline' => 'Please fill in the timeline rating!',
@@ -84,61 +83,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $emailRegex = '/^[^\s@]+@[^\s@]+\.[^\s@]+$/';
     if (!preg_match($emailRegex, $email)) {
         echo json_encode(["message" => "Please provide a valid email address."]);
-        http_response_code(400); // Bad Request
+        http_response_code(400);
         exit;
     }
 
-    // Check if the user already exists
-    // $stmtCheckEmail = mysqli_prepare($conn, "SELECT * FROM clients_survey_form WHERE email = ?");
-    // mysqli_stmt_bind_param($stmtCheckEmail, 's', $email);
-    // mysqli_stmt_execute($stmtCheckEmail);
-    // $result = mysqli_stmt_get_result($stmtCheckEmail);
-    
-    // if (mysqli_num_rows($result) > 0) {
-    //     echo json_encode(["message" => "This user already exists!"]);
-    //     http_response_code(401); // Unauthorized
-    //     exit;
-    // } 
-
-
-    // Insert the new user
-
+    // Insert the new submission
     $stmtInsert = mysqli_prepare($conn, "INSERT INTO 
     clients_survey_form (quality, quality_comments, timeline, timeline_comments, 
     expertise, expertise_comments, communication, communication_comments, resolution, resolution_comments, cleaniness, 
     cleaniness_comments, safety, safety_comments, response, response_comments, electrical_services, mechanical_services, filled_by, position, 
     office_address, phone_number, fax_number, project_title, company, location, email)  
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    mysqli_stmt_bind_param($stmtInsert, 'sssssssssssssssssssssssssss', $quality, $quality_comments, 
-    $timeline, $timeline_comments, $expertise, $expertise_comments, $communication, $communication_comments, 
-    $resolution, $resolution_comments, $cleaniness, $cleaniness_comments, $safety, $safety_comments, 
-    $response, $response_comments, $electrical_services, $mechanical_services, $filled_by, $position, 
-    $office_address, $phone_number, $fax_number, $project_title, $company, $location, $email);
-
     
+    mysqli_stmt_bind_param($stmtInsert, 'sssssssssssssssssssssssssss', 
+        $quality, $quality_comments, $timeline, $timeline_comments, 
+        $expertise, $expertise_comments, $communication, $communication_comments, 
+        $resolution, $resolution_comments, $cleaniness, $cleaniness_comments, 
+        $safety, $safety_comments, $response, $response_comments, 
+        $electrical_services, $mechanical_services, $filled_by, $position, 
+        $office_address, $phone_number, $fax_number, $project_title, 
+        $company, $location, $email
+    );
+
     if (mysqli_stmt_execute($stmtInsert)) {
-
-
-        sendNotificationEmail($filled_by, $position, $company, $project_title, $email, $phone_number, $location);
+        // Send both notification emails
+        sendNotificationEmails($filled_by, $position, $company, $project_title, $email, $phone_number, $location);
         
-        http_response_code(200); // Created
+        http_response_code(200);
         echo json_encode([
             "message" => "Your entries have been submitted successfully!",
             "data" => $data
         ]);
     } else {
-        http_response_code(500); // Internal Server Error
-        echo json_encode(["message" => "Error creating user."]);
+        http_response_code(500);
+        echo json_encode(["message" => "Error creating submission."]);
     }
     exit;
 } else {
-    http_response_code(404); // Not Found
+    http_response_code(404);
     echo json_encode(["message" => "Page not found."]);
     exit;
 }
 
-// Function to send email notification
-function sendNotificationEmail($filled_by, $position, $company, $project_title, $email, $phone_number, $location) {
+function sendNotificationEmails($filled_by, $position, $company, $project_title, $email, $phone_number, $location) {
     $mail = new PHPMailer(true);
 
     try {
@@ -150,57 +137,172 @@ function sendNotificationEmail($filled_by, $position, $company, $project_title, 
         $mail->Password = 'Youaregreat@1';
         $mail->SMTPSecure = 'ssl';
         $mail->Port = 465;
-
         $mail->CharSet = 'UTF-8';
 
-        // Recipients
-        $mail->setFrom('info@lambertelectromec.com.ng', 'Client Survey Form Notification');
-        $mail->addAddress('i.nzekwue@lambertelectromec.com');
-        // $mail->addAddress('info@lambertelectromec.com');
-        // $mail->addBCC('i.nzekwue@lambertelectromec.com', 'Nzekwue Ifeanyi');
-        // $mail->addBCC('m.sofuye@lambertelectromec.com', 'Mayowa Adediran');
+        // Send admin notification
+        sendAdminNotification($mail, $filled_by, $position, $company, $project_title, $email, $phone_number, $location);
+        
+        // Send client confirmation
+        sendClientConfirmation($mail, $filled_by, $company, $project_title, $email);
 
-        // Email content
-        $mail->isHTML(true);
-        $mail->Subject = "New Client's Survey Submission on $project_title";
-        $mail->Body = "
-            <div style='font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 10px; padding: 20px; background-color: #f9f9f9;'>
-                <h2 style='text-align: center; color:rgb(41, 180, 118);'>New Survey Submission</h2>
-                
-                <table style='width: 100%; border-collapse: collapse;'>
-                    <tr>
-                        <td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Filled By:</strong></td>
-                        <td style='padding: 10px; border-bottom: 1px solid #ddd;'>$filled_by ($position)</td>
-                    </tr>
-                    <tr>
-                        <td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Company:</strong></td>
-                        <td style='padding: 10px; border-bottom: 1px solid #ddd;'>$company</td>
-                    </tr>
-                    <tr>
-                        <td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Project Title:</strong></td>
-                        <td style='padding: 10px; border-bottom: 1px solid #ddd;'>$project_title</td>
-                    </tr>
-                    <tr>
-                        <td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Email:</strong></td>
-                        <td style='padding: 10px; border-bottom: 1px solid #ddd;'><a href='mailto:$email' style='color: #0073e6;'>$email</a></td>
-                    </tr>
-                    <tr>
-                        <td style='padding: 10px; border-bottom: 1px solid #ddd;'><strong>Phone Number:</strong></td>
-                        <td style='padding: 10px; border-bottom: 1px solid #ddd;'>$phone_number</td>
-                    </tr>
-                    <tr>
-                        <td style='padding: 10px;'><strong>Location:</strong></td>
-                        <td style='padding: 10px;'>$location</td>
-                    </tr>
-                </table>
-
-                <p style='text-align: center; font-size: 14px; color: #666;'>This is an automated notification. Please do not reply.</p>
-            </div>
-        ";
-        // Send email
-        $mail->send();
     } catch (Exception $e) {
         error_log("Mail Error: " . $mail->ErrorInfo);
     }
 }
-?>
+
+function sendAdminNotification($mail, $filled_by, $position, $company, $project_title, $email, $phone_number, $location) {
+    // Reset all recipients
+    $mail->clearAddresses();
+    $mail->clearBCCs();
+    
+    // Set admin recipients
+    $mail->setFrom('info@lambertelectromec.com.ng', 'Client Survey Form Notification');
+    $mail->addAddress('m.sofuye@lambertelectromec.com');
+    $mail->addBCC('i.nzekwue@lambertelectromec.com');
+
+    // Email content
+    $mail->isHTML(true);
+    $mail->Subject = "New Client's Survey Submission on $project_title";
+    
+    // Admin email template
+    $mail->Body = "
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset='utf-8'>
+            <meta name='viewport' content='width=device-width, initial-scale=1'>
+        </head>
+        <body style='margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f6f9fc;'>
+            <div style='max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 0;'>
+                <!-- Header -->
+                <div style='background: linear-gradient(135deg, #29b476 0%, #1a7b4f 100%); padding: 40px 20px; text-align: center;'>
+                    <h1 style='color: #ffffff; margin: 0; font-size: 24px; font-weight: 600;'>New Survey Submission</h1>
+                    <p style='color: #ffffff; margin-top: 10px; font-size: 16px;'>Project: $project_title</p>
+                </div>
+
+                <!-- Content -->
+                <div style='padding: 40px 30px;'>
+                    <!-- Client Info Section -->
+                    <div style='background-color: #f8fafc; border-radius: 10px; padding: 25px; margin-bottom: 30px;'>
+                        <h2 style='margin: 0 0 20px 0; color: #1a7b4f; font-size: 18px; font-weight: 600;'>Client Information</h2>
+                        <div style='display: grid; gap: 15px;'>
+                            <div style='padding: 15px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);'>
+                                <p style='margin: 0; color: #64748b; font-size: 14px;'>Submitted By</p>
+                                <p style='margin: 5px 0 0 0; color: #334155; font-size: 16px;'><strong>$filled_by</strong></p>
+                                <p style='margin: 5px 0 0 0; color: #64748b; font-size: 14px;'>$position</p>
+                            </div>
+                            
+                            <div style='padding: 15px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);'>
+                                <p style='margin: 0; color: #64748b; font-size: 14px;'>Company</p>
+                                <p style='margin: 5px 0 0 0; color: #334155; font-size: 16px;'><strong>$company</strong></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Details Section -->
+                    <div style='background-color: #f8fafc; border-radius: 10px; padding: 25px;'>
+                        <h2 style='margin: 0 0 20px 0; color: #1a7b4f; font-size: 18px; font-weight: 600;'>Contact Details</h2>
+                        <div style='display: grid; gap: 15px;'>
+                            <div style='display: flex; gap: 15px;'>
+                                <div style='flex: 1; padding: 15px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);'>
+                                    <p style='margin: 0; color: #64748b; font-size: 14px;'>Email</p>
+                                    <p style='margin: 5px 0 0 0; color: #334155; font-size: 16px;'>
+                                        <a href='mailto:$email' style='color: #29b476; text-decoration: none;'>$email</a>
+                                    </p>
+                                </div>
+                                <div style='flex: 1; padding: 15px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);'>
+                                    <p style='margin: 0; color: #64748b; font-size: 14px;'>Phone</p>
+                                    <p style='margin: 5px 0 0 0; color: #334155; font-size: 16px;'>$phone_number</p>
+                                </div>
+                            </div>
+                            <div style='padding: 15px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);'>
+                                <p style='margin: 0; color: #64748b; font-size: 14px;'>Location</p>
+                                <p style='margin: 5px 0 0 0; color: #334155; font-size: 16px;'>$location</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div style='background-color: #f8fafc; padding: 20px; text-align: center; border-top: 1px solid #e2e8f0;'>
+                    <p style='margin: 0; color: #64748b; font-size: 14px;'>This is an automated notification. Please do not reply.</p>
+                </div>
+            </div>
+        </body>
+        </html>
+    ";
+
+    $mail->send();
+}
+
+function sendClientConfirmation($mail, $filled_by, $company, $project_title, $email) {
+    // Reset all recipients
+    $mail->clearAddresses();
+    $mail->clearBCCs();
+    
+    // Set client as recipient
+    $mail->setFrom('info@lambertelectromec.com.ng', 'Lambert Electromec');
+    $mail->addAddress($email, $filled_by);
+
+    // Email content
+    $mail->isHTML(true);
+    $mail->Subject = "Survey Submission Confirmation - Lambert Electromec";
+    
+    // Client confirmation email template
+    $mail->Body = "
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset='utf-8'>
+            <meta name='viewport' content='width=device-width, initial-scale=1'>
+        </head>
+        <body style='margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f6f9fc;'>
+            <div style='max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 0;'>
+                <!-- Header with Logo -->
+                <div style='background: linear-gradient(135deg, #29b476 0%, #1a7b4f 100%); padding: 40px 20px; text-align: center;'>
+                    <h1 style='color: #ffffff; margin: 0; font-size: 24px; font-weight: 600;'>Thank You for Your Feedback</h1>
+                </div>
+
+                <!-- Content -->
+                <div style='padding: 40px 30px;'>
+                    <div style='background-color: #f8fafc; border-radius: 10px; padding: 25px; margin-bottom: 30px;'>
+                        <h2 style='margin: 0 0 20px 0; color: #1a7b4f; font-size: 18px; font-weight: 600;'>Survey Submission Confirmation</h2>
+                        
+                        <div style='padding: 20px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);'>
+                            <p style='margin: 0; color: #334155; font-size: 16px; line-height: 1.6;'>
+                                Dear <strong>$filled_by</strong>,
+                            </p>
+                            <p style='margin: 15px 0; color: #334155; font-size: 16px; line-height: 1.6;'>
+                                Thank you for taking the time to complete our client survey for the project:
+                                <strong>$project_title</strong>
+                            </p>
+                            <p style='margin: 15px 0; color: #334155; font-size: 16px; line-height: 1.6;'>
+                                Your feedback is invaluable to us and will help us improve our services. We appreciate your input and take all feedback seriously.
+                            </p>
+                            <p style='margin: 15px 0 0 0; color: #334155; font-size: 16px; line-height: 1.6;'>
+                                If you have any questions or additional feedback, please don't hesitate to contact us.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Contact Information -->
+                    <div style='background-color: #f8fafc; border-radius: 10px; padding: 25px;'>
+                        <h2 style='margin: 0 0 20px 0; color: #1a7b4f; font-size: 18px; font-weight: 600;'>Contact Us</h2>
+                        <div style='padding: 15px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);'>
+                            <p style='margin: 0; color: #64748b; font-size: 14px;'>Email: m.sofuye@lambertelectromec.com</p>
+                            <p style='margin: 5px 0 0 0; color: #64748b; font-size: 14px;'>Website: www.lambertelectromec.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div style='background-color: #f8fafc; padding: 20px; text-align: center; border-top: 1px solid #e2e8f0;'>
+                    <p style='margin: 0; color: #64748b; font-size: 14px;'>© 2024 Lambert Electromec. All rights reserved.</p>
+                </div>
+            </div>
+        </body>
+        </html>
+    ";
+
+    $mail->send();
+}
