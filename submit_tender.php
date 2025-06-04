@@ -7,20 +7,20 @@ session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-$project_title = $db->real_escape_string($_POST['project_title']);
-$clients_nameList = $_POST['clients_name'];
-$end_user = $db->real_escape_string($_POST['end_user']);
-$division = $db->real_escape_string($_POST['division']);
-$project_manager = $_POST['project_manager'];
-$qs_manager = $_POST['qs_manager'];
-$mep_consultants = $_POST['mep_consultant'];
-$architects = $_POST['architects'];
-$tender_received_date = $db->real_escape_string($_POST['tender_received_date']);
-$tender_due = $db->real_escape_string($_POST['tender_due']);
-$tender_documentList = $_POST['tender_document'];
-$technical_documentList = $_POST['technical_document'];
-$project_country = $db->real_escape_string($_POST['project_country']);
-$project_city = $db->real_escape_string($_POST['project_city']);    
+$project_title = isset($_POST['project_title']) ? $db->real_escape_string($_POST['project_title']) : '';
+$clients_nameList = isset($_POST['clients_name']) ? $_POST['clients_name'] : array();
+$end_user = isset($_POST['end_user']) ? $db->real_escape_string($_POST['end_user']) : '';
+$division = isset($_POST['division']) ? $db->real_escape_string($_POST['division']) : '';
+$project_manager = isset($_POST['project_manager']) ? $db->real_escape_string($_POST['project_manager']) : '';
+$qs_manager = isset($_POST['qs_manager']) ? $db->real_escape_string($_POST['qs_manager']) : '';
+$mep_consultants = isset($_POST['mep_consultant']) ? $db->real_escape_string($_POST['mep_consultant']) : '';
+$architects = isset($_POST['architects']) ? $db->real_escape_string($_POST['architects']) : '';
+$tender_received_date = isset($_POST['tender_received_date']) ? $db->real_escape_string($_POST['tender_received_date']) : '';
+$tender_due = isset($_POST['tender_due']) ? $db->real_escape_string($_POST['tender_due']) : '';
+$tender_documentList = isset($_POST['tender_document']) ? $_POST['tender_document'] : array();
+$technical_documentList = isset($_POST['technical_document']) ? $_POST['technical_document'] : array();
+$project_country = isset($_POST['project_country']) ? $db->real_escape_string($_POST['project_country']) : '';
+$project_city = isset($_POST['project_city']) ? $db->real_escape_string($_POST['project_city']) : '';   
 $project_status = "On Hold";
 $progress = "Pending";
 $created_by = $_SESSION['email'];
@@ -181,7 +181,7 @@ $clients_name = $_POST['clients_name'][$i];
 $key_person = $_POST['key_person'][$i];    
              
 
-$selectClientsName = mysqli_query($db, "SELECT * FROM clients_keypersons_table WHERE project_id = '$code' && clients_name = '$clients_name'");
+$selectClientsName = mysqli_query($db, "SELECT * FROM clients_keypersons_table WHERE project_id = $code && clients_name = $clients_name");
 $numClients = mysqli_num_rows($selectClientsName);   
     
 if ($numClients > 0) {
@@ -266,9 +266,7 @@ $errMsg = TRUE;
     
     
 if(!empty($tender_document)){
-
 $sqlQueries .= "INSERT INTO tender_document_table (project_id, project_title, tender_document, created_by, updated_by)VALUES('$code', '$project_title', '$tender_document', '$created_by', '$updated_by');\n";
-
 }
     
 }
@@ -294,7 +292,6 @@ $errMsg = TRUE;
     
     
 if(!empty($technical_document)){
-
 $sqlQueries .= "INSERT INTO technical_document_table (project_id, project_title, technical_document, created_by, updated_by)VALUES('$code', '$project_title', '$technical_document', '$created_by', '$updated_by');\n";    
 }    
     
@@ -302,13 +299,41 @@ $sqlQueries .= "INSERT INTO technical_document_table (project_id, project_title,
     
 
 if($errMsg !== TRUE){	
-// Insert data into invoice_table
-$sqlQueries .= "INSERT INTO project_info_table(project_title, end_user, division, project_manager, qs_manager, mep_consultants, architect, tender_received_date, tender_due, project_country, project_city, code, tender_code, project_status, progress, created_by, updated_by)VALUES('$project_title', '$end_user', '$division', '$project_manager', '$qs_manager', '$mep_consultants', '$architects', '$tender_received_date', '$tender_due', '$project_country', '$project_city', '$code', '$tender_code', '$project_status', '$progress', '$created_by', '$updated_by');\n";
+// Insert data into project_table
+
+// error_log("Executing SQL Queries: " . $sqlQueries);
+
+// $project_info_query = "INSERT INTO project_info_table(project_title, end_user, division, project_manager, qs_manager, mep_consultants, architect, tender_received_date, tender_due, project_country, project_city, code, tender_code, project_status, progress, created_by, updated_by) VALUES('$project_title', '$end_user', '$division', '$project_manager', '$qs_manager', '$mep_consultants', '$architects', '$tender_received_date', '$tender_due', '$project_country', '$project_city', '$code', '$tender_code', '$project_status', '$progress', '$created_by', '$updated_by')";
+
+// $insert_test = $db->query($project_info_query);
+// if (!$insert_test) {
+//     error_log("Project Info Table Insert Failed: " . $db->error);
+//     $response = array(
+//         'status' => 'error',
+//         'message' => "<span class='fas fa-exclamation-triangle error-icon'></span><div class='error-err-message'>Database error: " . $db->error . "</div>"
+//     );
+//     echo json_encode($response);
+//     exit();
+// }
+
+$sqlQueries .= "
+INSERT INTO 
+project_info_table(project_title, end_user, division, project_manager, qs_manager, mep_consultants, architect, tender_received_date, tender_due, project_country, project_city, code, tender_code, project_status, progress, created_by, updated_by)
+VALUES('$project_title', '$end_user', '$division', '$project_manager', '$qs_manager', '$mep_consultants', '$architects', '$tender_received_date', '$tender_due', '$project_country', '$project_city', '$code', '$tender_code', '$project_status', '$progress', '$created_by', '$updated_by');\n";
     
     
     
 // Execute all accumulated queries
     if ($db->multi_query($sqlQueries) !== TRUE) {
+
+        $error_message = $db->error;
+        $error_number = $db->errno;
+
+        $detailed_error = "Database Error ($error_number): $error_message";
+
+        error_log("Failed SQL Queries: " . $sqlQueries);
+        error_log("MySQL Error: " . $detailed_error);
+
         $response = array(
             'status' => 'error',
             'message' => "Error: " . $sqlQueries . "<br>" . $db->error
